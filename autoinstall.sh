@@ -35,6 +35,12 @@ certbot_install() {
   echo "Certbot installed"
 }
 
+pm2_install() {
+  echo "Installing PM2..."
+  sudo npm install -g pm2
+  echo "PM2 installed"
+}
+
 # check if user is root
 if [ "$(id -u)" != "0" ]; then
    echo "This script must be run as root" 1>&2
@@ -56,6 +62,12 @@ fi
 if [ -z "$(command -v npm)" ]; then
    echo "Npm is not installed" 1>&2
     npm_install
+fi
+
+# check if pm2 is installed
+if [ -z "$(command -v pm2)" ]; then
+   echo "PM2 is not installed" 1>&2
+   pm2_install
 fi
 
 # check if git is installed
@@ -84,6 +96,15 @@ fi
 
 # setup nginx
 echo "Setting up nginx..."
-sudo mv /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
-sudo cp /etc/default /etc/nginx/sites-available/default
+sudo mv ./conf.d/l3mon.conf /etc/nginx/conf.d/l3mon.conf
 sudo nginx -t
+sudo systemctl reload nginx
+echo "Nginx setup done"
+
+# setup ufw firewall
+echo "Setting up ufw firewall..."
+sudo ufw enable
+sudo ufw allow http
+sudo ufw allow https
+sudo ufw status
+echo "Ufw firewall setup done"
