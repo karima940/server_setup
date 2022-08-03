@@ -110,7 +110,7 @@ fi
 
 # setup nginx
 echo "Setting up nginx..."
-sudo mv ./conf.d/l3mon.conf /etc/nginx/conf.d/l3mon.conf
+# sudo mv ./conf.d/l3mon.conf /etc/nginx/conf.d/l3mon.conf
 sudo nginx -t
 sudo systemctl reload nginx
 echo "Nginx setup done"
