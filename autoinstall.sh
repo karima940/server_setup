@@ -55,29 +55,29 @@ fi
 # check if npm is installed
 if [ -z "$(command -v npm)" ]; then
    echo "Npm is not installed" 1>&2
-   exit 1
+    npm_install
 fi
 
 # check if git is installed
 if [ -z "$(command -v git)" ]; then
    echo "Git is not installed" 1>&2
-   exit 1
+    git_install
 fi
 
 # check if ufw is installed
 if [ -z "$(command -v ufw)" ]; then
    echo "Ufw is not installed" 1>&2
-   exit 1
+    ufw_install
 fi
 
 # check if nginx is installed
 if [ -z "$(command -v nginx)" ]; then
    echo "Nginx is not installed" 1>&2
-   exit 1
+    nginx_install
 fi
 
 # check if certbot is installed
 if [ -z "$(command -v certbot)" ]; then
    echo "Certbot is not installed" 1>&2
-   exit 1
+    certbot_install
 fi
