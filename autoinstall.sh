@@ -81,3 +81,9 @@ if [ -z "$(command -v certbot)" ]; then
    echo "Certbot is not installed" 1>&2
     certbot_install
 fi
+
+# setup nginx
+echo "Setting up nginx..."
+sudo mv /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
+sudo cp /etc/default /etc/nginx/sites-available/default
+sudo nginx -t
