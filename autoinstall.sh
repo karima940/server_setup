@@ -49,8 +49,7 @@ echo "Update and upgrade done"
 # check if nodejs is installed
 if [ -z "$(command -v node)" ]; then
    echo "Nodejs is not installed" 1>&2
-    nodejs_install
-   exit 1
+   nodejs_install
 fi
 
 # check if npm is installed
