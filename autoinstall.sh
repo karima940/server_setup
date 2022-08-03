@@ -1,3 +1,11 @@
+java_install() {
+    sudo apt-get install -y openjdk-8-jdk
+    sudo update-java-alternatives -s java-1.8.0-openjdk-amd64
+    sudo update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
+    sudo update-alternatives --set javac /usr/lib/jvm/java-8-openjdk-amd64/bin/javac
+    sudo update-alternatives --set javaws /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/javaws
+}
+
 nodejs_install() {
   echo "Installing NodeJS..."
   curl -sL https://deb.nodesource.com/setup_14.x | sudo bash -
@@ -51,6 +59,12 @@ fi
 echo "Updating and upgrading..."
 sudo apt-get update && sudo apt-get upgrade -y
 echo "Update and upgrade done"
+
+# check if java is installed
+if [ -z "$(dpkg -l | grep openjdk-8-jre-headless)" ]; then
+  echo "Java is not installed"
+  java_install
+fi
 
 # check if nodejs is installed
 if [ -z "$(command -v node)" ]; then
