@@ -39,7 +39,7 @@ nginx_install() {
 
 certbot_install() {
   echo "Installing Certbot..."
-  sudo apt-get install -y certbot
+  sudo apt-get install -y python-certbot-nginx
   echo "Certbot installed"
 }
 
@@ -110,7 +110,9 @@ fi
 
 # setup nginx
 echo "Setting up nginx..."
-# sudo cp ./conf.d/l3mon.conf /etc/nginx/conf.d/l3mon.conf
+read -p "Enter your domain name (Example: yourdomain.com, example.io ): " DOMAIN
+sudo sed -i 's/example.com/'$DOMAIN'/g' ./conf.d/l3mon.conf
+sudo cp ./conf.d/l3mon.conf /etc/nginx/conf.d/l3mon.conf
 sudo nginx -t
 sudo systemctl reload nginx
 echo "Nginx setup done"
