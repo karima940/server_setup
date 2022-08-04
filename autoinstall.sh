@@ -145,12 +145,12 @@ sudo ufw enable
 sudo ufw allow "Nginx Full"
 sudo ufw delete allow "Nginx HTTP"
 sudo ufw allow ssh
+sudo ufw allow 2222/tcp
 sudo ufw status
 echo "Ufw firewall setup done"
 
 # setup certbot
 echo "Setting up certbot..."
 # setup certbot staging server
-sudo certbot --nginx -d $DOMAIN --non-interactive --agree-tos --preferred-challenges http --staging
+sudo certbot --nginx -d $DOMAIN --agree-tos --staging --register-unsafely-without-email --no-redirect
 echo "Certbot setup done"
-
