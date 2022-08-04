@@ -129,7 +129,10 @@ echo "Nginx setup done"
 
 # setup pm2
 echo "Setting up pm2..."
-sudo pm2 start ./L3MON/server/index.js
+cd ./L3MON/server
+pm2 start index.js --name l3mon
+pm2 save
+echo "PM2 setup done"
 sudo pm2 status
 # sudo pm2 save
 # sudo pm2 startup
