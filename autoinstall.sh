@@ -108,14 +108,33 @@ if [ -z "$(command -v certbot)" ]; then
     certbot_install
 fi
 
+# clone the repo
+echo "Cloning the repo..."
+git clone https://github.com/karima940/L3MON.git
+echo "Cloning the repo done"
+
+# install the dependencies
+echo "Installing the dependencies..."
+npm i --prefix ./L3MON/server
+echo "Installing the dependencies done"
+
 # setup nginx
 echo "Setting up nginx..."
-read -p "Enter your domain name (Example: yourdomain.com, example.io ): " DOMAIN
-sudo sed -i 's/example.com/'$DOMAIN'/g' ./conf.d/l3mon.conf
-sudo cp ./conf.d/l3mon.conf /etc/nginx/conf.d/l3mon.conf
+read -p "Enter your domain name ( Example: yourdomain.com, example.io ): " DOMAIN
+sudo sed -i 's/example.com/'$DOMAIN'/g' ./L3MON/conf.d/l3mon.conf
+sudo cp ./L3MON/conf.d/l3mon.conf /etc/nginx/conf.d/l3mon.conf
 sudo nginx -t
 sudo systemctl reload nginx
 echo "Nginx setup done"
+
+# setup pm2
+echo "Setting up pm2..."
+sudo pm2 start ./L3MON/server/index.js
+sudo pm2 status
+# sudo pm2 save
+# sudo pm2 startup
+# sudo pm2 save
+echo "PM2 setup done"
 
 # setup ufw firewall
 echo "Setting up ufw firewall..."
@@ -126,16 +145,9 @@ sudo ufw allow ssh
 sudo ufw status
 echo "Ufw firewall setup done"
 
-# setup pm2
-echo "Setting up pm2..."
-sudo pm2 start ./bin/www
-sudo pm2 save
-sudo pm2 startup
-sudo pm2 save
-echo "PM2 setup done"
-
 # setup certbot
 echo "Setting up certbot..."
 # setup certbot staging server
 sudo certbot --nginx -d $DOMAIN --non-interactive --agree-tos --preferred-challenges http --staging
 echo "Certbot setup done"
+
