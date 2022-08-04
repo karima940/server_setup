@@ -120,7 +120,22 @@ echo "Nginx setup done"
 # setup ufw firewall
 echo "Setting up ufw firewall..."
 sudo ufw enable
-sudo ufw allow http
-sudo ufw allow https
+sudo ufw allow "Nginx Full"
+sudo ufw delete allow "Nginx HTTP"
+sudo ufw allow ssh
 sudo ufw status
 echo "Ufw firewall setup done"
+
+# setup pm2
+echo "Setting up pm2..."
+sudo pm2 start ./bin/www
+sudo pm2 save
+sudo pm2 startup
+sudo pm2 save
+echo "PM2 setup done"
+
+# setup certbot
+echo "Setting up certbot..."
+# setup certbot staging server
+sudo certbot --nginx -d $DOMAIN --non-interactive --agree-tos --preferred-challenges http --staging
+echo "Certbot setup done"
