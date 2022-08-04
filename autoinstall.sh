@@ -39,7 +39,7 @@ nginx_install() {
 
 certbot_install() {
   echo "Installing Certbot..."
-  sudo apt-get install -y python-certbot-nginx
+  sudo apt-get install -y certbot python3-certbot-nginx
   echo "Certbot installed"
 }
 
